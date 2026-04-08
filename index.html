@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tecnología - Aprende y Crea</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Import Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Import Feather Icons for friendly icons -->
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Pantalla de inicio -->
+  <div class="splash-screen" id="splashScreen">
+    <div class="splash-content">
+      <h1 class="app-title">Tecnología<span class="accent"> Aprende y Crea</span></h1>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4bb.svg" class="splash-icon" alt="laptop emoji" role="presentation">
+      <p class="subtitle">Explora, experimenta y aprende Tecnología con herramientas digitales.</p>
+      <div class="quick-access">
+        <button class="quick-btn" onclick="goTo('actividades')" aria-label="Ir a Mis Actividades">
+          <i data-feather="edit-3"></i>
+          <span>Mis Actividades</span>
+        </button>
+        <button class="quick-btn" onclick="goTo('recursos')" aria-label="Ir a Recursos Multimedia">
+          <i data-feather="film"></i>
+          <span>Recursos</span>
+        </button>
+        <button class="quick-btn" onclick="goTo('evaluaciones')" aria-label="Ir a Evaluaciones">
+          <i data-feather="check-circle"></i>
+          <span>Evaluaciones</span>
+        </button>
+      </div>
+      <button class="login-btn" onclick="showLogin()" aria-label="Iniciar sesión">
+        <i data-feather="log-in"></i> Iniciar sesión
+      </button>
+    </div>
+  </div>
+  
+  <!-- Contenido principal de la app -->
+  <div class="app-container" id="mainApp" style="display:none">
+    <!-- Menú lateral principal -->
+    <nav class="main-menu" id="mainMenu">
+      <div class="menu-header">
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f393.svg" class="user-avatar" alt="avatar estudiante" aria-hidden="true">
+        <div class="user-name" id="userNameDisplay">Estudiante Invitado</div>
+      </div>
+      <ul>
+        <li class="menu-item" data-section="actividades" onclick="showSection('actividades')" tabindex="0">
+          <i data-feather="edit-3"></i> <span>Mis actividades</span>
+        </li>
+        <li class="menu-item" data-section="recursos" onclick="showSection('recursos')" tabindex="0">
+          <i data-feather="film"></i> <span>Recursos multimedia</span>
+        </li>
+        <li class="menu-item" data-section="evaluaciones" onclick="showSection('evaluaciones')" tabindex="0">
+          <i data-feather="check-circle"></i> <span>Evaluaciones</span>
+        </li>
+        <li class="menu-item" data-section="foro" onclick="showSection('foro')" tabindex="0">
+          <i data-feather="message-circle"></i> <span>Foro de colaboración</span>
+        </li>
+        <li class="menu-item" data-section="progreso" onclick="showSection('progreso')" tabindex="0">
+          <i data-feather="bar-chart-2"></i> <span>Mi progreso</span>
+        </li>
+      </ul>
+      <button class="logout-btn" onclick="logout()" aria-label="Cerrar sesión">
+        <i data-feather="log-out"></i>
+      </button>
+    </nav>
+
+    <!-- Panel Principal -->
+    <main class="main-panel">
+      <!-- Panel de usuario -->
+      <section class="user-panel" id="userPanel">
+        <div class="profile-info">
+          <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f393.svg" class="profile-avatar" alt="avatar" aria-hidden="true">
+          <div>
+            <h2 id="userNamePanel">Estudiante Invitado</h2>
+            <div class="badges">
+              <div class="badge" title="Primer Logro"><i data-feather="star"></i> <span>Inicio</span></div>
+              <div class="badge" title="Logro por participación"><i data-feather="award"></i> <span>Participativo</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-number" id="actividadesCount">3</span>
+            <span class="stat-label">Actividades completadas</span>
+            <div class="progress-bar-container" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar accent-bg" style="width: 60%"></div>
+            </div>
+          </div>
+          <div class="stat">
+            <span class="stat-number">2</span>
+            <span class="stat-label">Evaluaciones</span>
+            <div class="progress-bar-container" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar orange-bg" style="width: 40%"></div>
+            </div>
+          </div>
+          <div class="stat">
+            <span class="stat-number" id="forumCount">0</span>
+            <span class="stat-label">Respuestas en el foro</span>
+          </div>
+        </div>
+        <div class="notif" id="notifArea">
+          <i data-feather="bell"></i> <span>¡Tienes 2 nuevas actividades por realizar!</span>
+        </div>
+      </section>
+      
+      <!-- Contenido dinámico por sección -->
+      <section class="section-content" id="actividadesSection">
+        <h2><i data-feather="edit-3"></i> Mis actividades</h2>
+        <ul class="activity-list">
+          <li class="activity-card" data-id="a1">
+            <div>
+              <strong>Investiga el impacto de las redes sociales</strong>
+              <span class="tag green-bg">Disponible</span>
+            </div>
+            <button class="action-btn blue-bg" data-action="comenzar">¡Comenzar!</button>
+          </li>
+          <li class="activity-card" data-id="a2">
+            <div>
+              <strong>Presentación: Herramientas digitales en clase</strong>
+              <span class="tag orange-bg">Por entregar</span>
+            </div>
+            <button class="action-btn green-bg" data-action="entregar">Entregar</button>
+          </li>
+          <li class="activity-card" data-id="a3">
+            <div>
+              <strong>Actividad: Comunicación y representación técnica</strong>
+              <span class="tag blue-bg">Disponible</span>
+            </div>
+            <button class="action-btn blue-bg" data-action="comenzar">¡Comenzar!</button>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Detalle de actividad / página individual -->
+      <section class="section-content" id="actividadDetailSection" style="display:none">
+        <button class="action-btn" style="background:#fff;color:#19558f;border:1px solid #e8f5fd;margin-bottom:12px;" onclick="closeActivityDetail()">← Volver</button>
+        <h2 id="actividadTitle"><i data-feather="book-open"></i> Actividad</h2>
+        <div class="activity-detail">
+          <p id="actividadDesc" style="color:#274e74;">Aquí verás las instrucciones detalladas de la actividad seleccionada. Lee con atención y sube tu evidencia cuando esté lista.</p>
+          <h3 style="margin-top:12px;color:var(--blue);font-family:var(--font-title);font-size:1.05em;">Instrucciones</h3>
+          <ul id="actividadInstructions" style="margin-top:6px;color:#2b4f78;">
+            <li>Investiga fuentes confiables sobre el tema.</li>
+            <li>Elabora un documento o presentación (PDF/PNG/JPG).</li>
+            <li>Sube tu evidencia y marca como entregada.</li>
+          </ul>
+
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <label for="evidenceInput" style="background:#f6fbfe;border-radius:12px;padding:10px 12px;border:1px dashed #eaf5ff;cursor:pointer;font-weight:700;color:#15477e;">
+              Subir evidencia
+              <input id="evidenceInput" type="file" accept=".pdf,.png,.jpg,.jpeg" style="display:none">
+            </label>
+            <span id="fileName" style="font-size:.95em;color:#19618f;">No hay archivo seleccionado</span>
+          </div>
+
+          <div style="margin-top:14px;display:flex;gap:10px;">
+            <button id="markDeliveredBtn" class="action-btn green-bg" data-action="entregar">Marcar como entregada</button>
+            <button id="saveDraftBtn" class="action-btn blue-bg" style="background:#2998ff;">Guardar borrador</button>
+          </div>
+
+          <div id="actividadStatus" style="margin-top:12px;font-weight:700;color:#2a8f6b;"></div>
+        </div>
+      </section>
+
+      <section class="section-content" id="recursosSection" style="display:none">
+        <h2><i data-feather="film"></i> Recursos multimedia</h2>
+        <div class="resources">
+          <a href="https://www.youtube.com/watch?v=t7FuA3QxYbE" class="resource-card" tabindex="0" target="_blank" rel="noopener noreferrer" aria-label="Video ¿Qué es la tecnología?">
+            <i data-feather="youtube"></i> Video: ¿Qué es la tecnología?
+          </a>
+          <a href="https://www.canva.com/design/DAHGJOGeuVM/9rjxCi4bp5om1_iiS_0ocA/edit?utm_content=DAHGJOGeuVM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" class="resource-card" tabindex="0" target="_blank" rel="noopener noreferrer" aria-label="Infografía Herramientas digitales">
+            <i data-feather="image"></i> Infografía: Herramientas digitales
+          </a>
+          <a href="/cuadernillo_de_tecnología_2.pdf" class="resource-card" tabindex="0" target="_blank" rel="noopener noreferrer" aria-label="Guía práctica PDF" download>
+            <i data-feather="book-open"></i> Guía práctica PDF
+          </a>
+        </div>
+      </section>
+      <section class="section-content" id="evaluacionesSection" style="display:none">
+        <h2><i data-feather="check-circle"></i> Evaluaciones</h2>
+        <ul class="evaluation-list">
+          <li class="evaluation-card" data-eid="q0">
+            <div>
+              <strong>Diagnóstico inicial: Conocimientos de tecnología</strong>
+              <span class="tag green-bg">Diagnóstico</span>
+            </div>
+            <button class="action-btn orange-bg" data-action="responder" data-eid="q0">Responder</button>
+          </li>
+          <li class="evaluation-card" data-eid="q1">
+            <div>
+              <strong>Quiz #1: Herramientas digitales</strong>
+              <span class="tag blue-bg">Disponible</span>
+            </div>
+            <button class="action-btn orange-bg" data-action="responder" data-eid="q1">Responder</button>
+          </li>
+        </ul>
+      </section>
+      <!-- Detalle de evaluación / página individual (quiz) -->
+      <section class="section-content" id="evaluacionDetailSection" style="display:none">
+        <button class="action-btn" style="background:#fff;color:#19558f;border:1px solid #e8f5fd;margin-bottom:12px;" onclick="closeEvaluationDetail()">← Volver</button>
+        <h2 id="evaluacionTitle"><i data-feather="edit-3"></i> Evaluación</h2>
+        <div id="quizArea" style="margin-top:12px;"></div>
+        <div style="display:flex;gap:10px;margin-top:12px;align-items:center;">
+          <button id="submitQuizBtn" class="action-btn orange-bg">Enviar respuestas</button>
+          <button id="cancelQuizBtn" class="action-btn" style="background:#fff;color:#19558f;border:1px solid #e8f5fd;">Cancelar</button>
+          <div id="quizResult" style="font-weight:700;margin-left:8px;"></div>
+        </div>
+      </section>
+      <section class="section-content" id="foroSection" style="display:none">
+        <h2><i data-feather="message-circle"></i> Foro de colaboración</h2>
+        <div class="forum">
+          <div class="forum-message">
+            <span class="forum-user">Profe Eric:</span> Recuerden compartir ejemplos de aplicaciones tecnológicas que usen.
+          </div>
+          <div class="forum-compose">
+            <input type="text" placeholder="Escribe tu mensaje..." aria-label="Escribe tu mensaje">
+            <button class="action-btn blue-bg"><i data-feather="send"></i></button>
+          </div>
+        </div>
+      </section>
+      <section class="section-content" id="progresoSection" style="display:none">
+        <h2><i data-feather="bar-chart-2"></i> Mi progreso</h2>
+        <div class="progress-summary">
+          <div class="summary-item">
+            <span class="summary-label">Actividades</span>
+            <div class="progress-circle">
+              <svg width="56" height="56"><circle r="26" cx="28" cy="28" fill="none" stroke="#2ac6b4" stroke-width="8" stroke-dasharray="163" stroke-dashoffset="65"></circle></svg>
+              <span class="circle-label">60%</span>
+            </div>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Evaluaciones</span>
+            <div class="progress-circle">
+              <svg width="56" height="56"><circle r="26" cx="28" cy="28" fill="none" stroke="#fc9635" stroke-width="8" stroke-dasharray="163" stroke-dashoffset="98"></circle></svg>
+              <span class="circle-label">40%</span>
+            </div>
+          </div>
+        </div>
+        <p class="progreso-msg">¡Sigue aprendiendo y alcanza nuevos logros e insignias!</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal de inicio de sesión -->
+  <div class="login-modal" id="loginModal" style="display:none">
+    <div class="login-content">
+      <h2>Iniciar sesión</h2>
+      <form id="loginForm" onsubmit="login(event)">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" required autocomplete="username" maxlength="18">
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" required autocomplete="current-password" maxlength="18">
+        <button type="submit" class="login-btn" aria-label="Entrar"><i data-feather="log-in"></i> Entrar</button>
+        <button type="button" onclick="closeLogin()" class="login-cancel" aria-label="Cancelar">Cancelar</button>
+      </form>
+      <div class="login-note">¿Olvidaste tu contraseña? Contacta a tu profesor/a.</div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Simple section navigation
+    window.goTo = function(section) {
+      document.getElementById('splashScreen').style.display = 'none';
+      document.getElementById('mainApp').style.display = '';
+      showSection(section);
+    };
+
+    window.showSection = function(section) {
+      let ids = ['actividades', 'recursos', 'evaluaciones', 'foro', 'progreso'];
+      ids.forEach(id => {
+        let s = document.getElementById(id + 'Section');
+        if (s) s.style.display = (section === id) ? '' : 'none';
+      });
+      // Highlight selected menu
+      document.querySelectorAll('.main-menu .menu-item').forEach(item => {
+        if (item.dataset.section === section) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+    };
+
+    window.showLogin = function() {
+      document.getElementById('loginModal').style.display = '';
+    };
+
+    window.closeLogin = function() {
+      document.getElementById('loginModal').style.display = 'none';
+    };
+
+    window.login = function(e) {
+      e.preventDefault();
+      let username = document.getElementById('username').value.trim();
+      if (username.length > 0) {
+        document.getElementById('userNameDisplay').textContent = username;
+        document.getElementById('userNamePanel').textContent = username;
+      }
+      closeLogin();
+      document.getElementById('splashScreen').style.display = 'none';
+      document.getElementById('mainApp').style.display = '';
+      showSection('actividades');
+    };
+
+    window.logout = function() {
+      document.getElementById('mainApp').style.display = 'none';
+      document.getElementById('splashScreen').style.display = '';
+      document.getElementById('userNameDisplay').textContent = "Estudiante Invitado";
+      document.getElementById('userNamePanel').textContent = "Estudiante Invitado";
+    };
+
+    // Keyboard menu navigation (accesible)
+    document.addEventListener('keydown', function(e){
+      if(e.key === "Tab"){
+        // Let normal tab navigation occur
+        return;
+      }
+      if(e.target.classList.contains('menu-item') && (e.key === "Enter" || e.key === " ")){
+        e.preventDefault();
+        e.target.click();
+      }
+    });
+
+    // Activity action handlers: comenzar / entregar and activity detail page
+    function showToast(message) {
+      const n = document.getElementById('notifArea');
+      if (!n) return;
+      n.style.transition = 'opacity .25s';
+      n.style.opacity = '0';
+      setTimeout(() => {
+        n.textContent = '';
+        n.innerHTML = '<i data-feather="bell"></i> <span>' + message + '</span>';
+        feather.replace();
+        n.style.opacity = '1';
+      }, 200);
+    }
+
+    function updateProgress(deltaCompleted) {
+      const countEl = document.getElementById('actividadesCount');
+      let count = parseInt(countEl.textContent || '0', 10);
+      count = Math.max(0, count + deltaCompleted);
+      countEl.textContent = count.toString();
+
+      const total = 5;
+      const percent = Math.round((count / total) * 100);
+      const bar = document.querySelector('#userPanel .stat .progress-bar.accent-bg');
+      if (bar) {
+        bar.style.width = Math.min(100, percent) + '%';
+        bar.parentElement.setAttribute('aria-valuenow', Math.min(100, percent));
+      }
+      const circleLabel = document.querySelector('#progresoSection .circle-label');
+      if (circleLabel) circleLabel.textContent = Math.min(100, percent) + '%';
+      const circle = document.querySelector('#progresoSection svg circle');
+      if (circle) {
+        const dash = 163;
+        const offset = Math.round(dash - (dash * percent / 100));
+        circle.setAttribute('stroke-dashoffset', offset);
+      }
+    }
+
+    // Open activity detail page (fills info from card)
+    function openActivityDetailFromCard(card, mode) {
+      const id = card.dataset.id || 'a1';
+      const title = card.querySelector('strong') ? card.querySelector('strong').textContent : 'Actividad';
+      const tag = card.querySelector('.tag') ? card.querySelector('.tag').textContent : '';
+      document.getElementById('actividadTitle').innerHTML = '<i data-feather=\"book-open\"></i> ' + title;
+      // sample description/instructions per id (could be dynamic)
+      const desc = (id === 'a1') ? 'Investiga y analiza el impacto social de las redes sociales.' 
+                   : (id === 'a2') ? 'Prepara una presentación sobre herramientas digitales usadas en el aula.' 
+                   : 'Explora cómo comunicar ideas técnicas mediante planos, esquemas y símbolos. Practica representando un objeto simple.';
+      const instr = (id === 'a1') ? ['Busca 3 fuentes confiables.','Resume los hallazgos en 1 página.','Sube el documento en PDF.'] 
+                   : (id === 'a2') ? ['Crea una presentación (3-6 diapositivas).','Incluye ejemplos y capturas.','Sube el archivo en PDF o imagen.'] 
+                   : ['Observa ejemplos de planos y simbología técnica.','Dibuja un esquema o plano sencillo (puede ser foto/imagen).','Anota leyenda y escala si aplica y sube la evidencia en PDF/PNG/JPG.'];
+      document.getElementById('actividadDesc').textContent = desc;
+      const instrList = document.getElementById('actividadInstructions');
+      instrList.innerHTML = '';
+      instr.forEach(i => {
+        const li = document.createElement('li');
+        li.textContent = i;
+        instrList.appendChild(li);
+      });
+
+      // reset file input/status
+      const fileInput = document.getElementById('evidenceInput');
+      fileInput.value = '';
+      document.getElementById('fileName').textContent = 'No hay archivo seleccionado';
+      document.getElementById('actividadStatus').textContent = tag ? 'Estado: ' + tag : '';
+
+      // remember current card
+      document.getElementById('actividadDetailSection').dataset.current = card.dataset.id || '';
+      document.getElementById('actividadDetailSection').dataset.cardSelector = card.dataset.id ? ('[data-id=\"' + card.dataset.id + '\"]') : '';
+
+      // show detail, hide others
+      document.getElementById('actividadesSection').style.display = 'none';
+      document.getElementById('actividadDetailSection').style.display = '';
+      feather.replace();
+      // if mode indicates direct deliver, focus upload
+      if (mode === 'entregar') {
+        // focus upload (visually)
+        setTimeout(()=> document.getElementById('evidenceInput').click(), 350);
+      }
+    }
+
+    window.closeActivityDetail = function() {
+      document.getElementById('actividadDetailSection').style.display = 'none';
+      // go back to actividades
+      showSection('actividades');
+    };
+
+    function handleActivityAction(btn) {
+      const card = btn.closest('.activity-card');
+      const action = btn.dataset.action;
+      if (action === 'comenzar') {
+        // open detail to start
+        openActivityDetailFromCard(card, 'start');
+        showToast('Abriendo actividad para comenzar...');
+      } else if (action === 'entregar') {
+        // open detail but in entreg mode
+        openActivityDetailFromCard(card, 'entregar');
+      } else if (action === 'continuar') {
+        openActivityDetailFromCard(card, 'start');
+      }
+    }
+
+    // Bind buttons in actividades
+    function bindActivityButtons() {
+      document.querySelectorAll('#actividadesSection .action-btn').forEach(btn => {
+        btn.addEventListener('click', function(e){
+          handleActivityAction(btn);
+        });
+      });
+    }
+
+    // -- Evaluations / Quiz logic --
+    const EVALUATIONS = {
+      // diagnostic quiz placed before the main quiz
+      q0: {
+        title: 'Diagnóstico inicial: Conocimientos de tecnología',
+        questions: [
+          {
+            id: 'q0_1',
+            type: 'mcq',
+            question: '¿Qué es internet?',
+            choices: ['Una aplicación', 'Una red global de comunicación', 'Un tipo de hardware', 'Un lenguaje de programación'],
+            answer: 1
+          },
+          {
+            id: 'q0_2',
+            type: 'mcq',
+            question: '¿Cuál de estas opciones es una herramienta de creación de presentaciones?',
+            choices: ['Photoshop', 'PowerPoint / Google Slides', 'Audacity', 'Calculadora'],
+            answer: 1
+          },
+          {
+            id: 'q0_3',
+            type: 'tf',
+            question: 'Verdadero o falso: Un archivo PDF es apropiado para entregar trabajos escritos en la plataforma.',
+            answer: true
+          }
+        ]
+      },
+      // quiz id 'q1' with simple questions
+      q1: {
+        title: 'Quiz #1: Herramientas digitales',
+        questions: [
+          {
+            id: 'q1_1',
+            type: 'mcq',
+            question: '¿Cuál es un ejemplo de herramienta de colaboración en línea?',
+            choices: ['Calculadora', 'Editor de texto sin conexión', 'Documento compartido (Google Docs)', 'Reloj'],
+            answer: 2
+          },
+          {
+            id: 'q1_2',
+            type: 'mcq',
+            question: '¿Qué formato es adecuado para entregar una presentación en la plataforma?',
+            choices: ['PDF', 'Archivo de sistema operativo', 'Archivo ejecutable', 'Directorio comprimido sin presentación'],
+            answer: 0
+          },
+          {
+            id: 'q1_3',
+            type: 'tf',
+            question: 'Verdadero o falso: Una infografía ayuda a comunicar ideas técnicas de forma visual.',
+            answer: true
+          }
+        ]
+      }
+    };
+
+    // Open evaluation detail (renders quiz)
+    function openEvaluation(eid) {
+      const quiz = EVALUATIONS[eid];
+      if (!quiz) return;
+      document.getElementById('evaluacionTitle').innerHTML = '<i data-feather="edit-3"></i> ' + quiz.title;
+      renderQuiz(eid);
+      // show eval section, hide list
+      document.getElementById('evaluacionesSection').style.display = 'none';
+      document.getElementById('evaluacionDetailSection').style.display = '';
+      feather.replace();
+    }
+
+    window.closeEvaluationDetail = function() {
+      document.getElementById('evaluacionDetailSection').style.display = 'none';
+      document.getElementById('quizArea').innerHTML = '';
+      document.getElementById('quizResult').textContent = '';
+      showSection('evaluaciones');
+    }
+
+    function renderQuiz(eid) {
+      const quiz = EVALUATIONS[eid];
+      const area = document.getElementById('quizArea');
+      area.innerHTML = '';
+      quiz.questions.forEach((q, idx) => {
+        const wrap = document.createElement('div');
+        wrap.style.marginBottom = '14px';
+        const qTitle = document.createElement('div');
+        qTitle.style.fontWeight = '700';
+        qTitle.style.marginBottom = '6px';
+        qTitle.textContent = (idx + 1) + '. ' + q.question;
+        wrap.appendChild(qTitle);
+
+        if (q.type === 'mcq') {
+          q.choices.forEach((c, ci) => {
+            const id = `${eid}_${q.id}_${ci}`;
+            const label = document.createElement('label');
+            label.style.display = 'block';
+            label.style.background = '#f7fcff';
+            label.style.padding = '8px 10px';
+            label.style.borderRadius = '8px';
+            label.style.marginBottom = '6px';
+            label.style.cursor = 'pointer';
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `${eid}_${q.id}`;
+            input.value = ci;
+            input.id = id;
+            input.style.marginRight = '8px';
+            label.appendChild(input);
+            const span = document.createElement('span');
+            span.textContent = c;
+            label.appendChild(span);
+            wrap.appendChild(label);
+          });
+        } else if (q.type === 'tf') {
+          ['Verdadero', 'Falso'].forEach((opt, ci) => {
+            const id = `${eid}_${q.id}_${ci}`;
+            const label = document.createElement('label');
+            label.style.display = 'inline-flex';
+            label.style.alignItems = 'center';
+            label.style.gap = '8px';
+            label.style.marginRight = '12px';
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `${eid}_${q.id}`;
+            input.value = (ci === 0) ? 'true' : 'false';
+            input.id = id;
+            label.appendChild(input);
+            const span = document.createElement('span');
+            span.textContent = opt;
+            label.appendChild(span);
+            wrap.appendChild(label);
+          });
+        }
+        area.appendChild(wrap);
+      });
+
+      // attach submit/cancel handlers
+      const submitBtn = document.getElementById('submitQuizBtn');
+      const cancelBtn = document.getElementById('cancelQuizBtn');
+      submitBtn.onclick = function(){ gradeQuiz(eid); };
+      cancelBtn.onclick = function(){ closeEvaluationDetail(); };
+      document.getElementById('quizResult').textContent = '';
+    }
+
+    function gradeQuiz(eid) {
+      const quiz = EVALUATIONS[eid];
+      let correct = 0;
+      let total = quiz.questions.length;
+      quiz.questions.forEach(q => {
+        const name = `${eid}_${q.id}`;
+        const chosen = document.querySelector(`input[name="${name}"]:checked`);
+        if (!chosen) return;
+        if (q.type === 'mcq') {
+          if (parseInt(chosen.value,10) === q.answer) correct++;
+        } else if (q.type === 'tf') {
+          const val = (chosen.value === 'true');
+          if (val === q.answer) correct++;
+        }
+      });
+      const score = Math.round((correct / total) * 100);
+      const resultBox = document.getElementById('quizResult');
+      resultBox.textContent = `Obtuviste ${correct} de ${total} respuestas correctas — Puntuación: ${score}%`;
+      // visual feedback
+      if (score >= 70) {
+        resultBox.style.color = '#2a8f6b';
+        showToast('Buen trabajo — evaluacion completada.');
+        // update user progreso for evaluations (simple increment)
+        const evalBar = document.querySelector('#userPanel .stat .progress-bar.orange-bg');
+        if (evalBar) {
+          let current = parseInt((evalBar.style.width || '20%').replace('%',''), 10);
+          const newPct = Math.min(100, (current || 20) + 20);
+          evalBar.style.width = newPct + '%';
+        }
+      } else {
+        resultBox.style.color = '#d04b4b';
+        showToast('Revisa tus respuestas y vuelve a intentarlo.');
+      }
+      // disable submit after grading
+      document.getElementById('submitQuizBtn').disabled = true;
+      document.getElementById('submitQuizBtn').classList.add('disabled');
+    }
+
+    // Open evaluation from list
+    function bindEvaluationButtons() {
+      document.querySelectorAll('#evaluacionesSection .action-btn[data-action="responder"]').forEach(btn => {
+        btn.addEventListener('click', function(){
+          const eid = btn.dataset.eid || btn.getAttribute('data-eid');
+          openEvaluation(eid || 'q1');
+        });
+      });
+    }
+
+    // Activity detail interactions
+    document.addEventListener('DOMContentLoaded', function(){
+      const fileInput = document.getElementById('evidenceInput');
+      const fileName = document.getElementById('fileName');
+      if (fileInput) {
+        fileInput.addEventListener('change', function(){
+          if (fileInput.files && fileInput.files[0]) {
+            fileName.textContent = fileInput.files[0].name;
+          } else {
+            fileName.textContent = 'No hay archivo seleccionado';
+          }
+        });
+      }
+
+      const deliverBtn = document.getElementById('markDeliveredBtn');
+      if (deliverBtn) {
+        deliverBtn.addEventListener('click', function(){
+          // mark current activity as delivered
+          const detail = document.getElementById('actividadDetailSection');
+          const currentId = detail.dataset.current;
+          // find the card in actividades and update UI
+          const card = document.querySelector('.activity-card[data-id=\"' + currentId + '\"]');
+          if (card) {
+            const tag = card.querySelector('.tag');
+            if (tag) { tag.textContent = 'Entregado'; tag.className = 'tag green-bg'; }
+            const actionBtn = card.querySelector('.action-btn');
+            if (actionBtn) {
+              actionBtn.textContent = 'Ver entrega';
+              actionBtn.disabled = true;
+              actionBtn.style.opacity = '0.9';
+            }
+          }
+          document.getElementById('actividadStatus').textContent = 'Enviado: evidencia recibida';
+          // if a file was uploaded, show success; update progress once
+          const fileInput = document.getElementById('evidenceInput');
+          if (fileInput && fileInput.files && fileInput.files.length > 0) {
+            showToast('Evidencia subida. Actividad entregada.');
+          } else {
+            showToast('Actividad marcada como entregada (sin evidencia).');
+          }
+          updateProgress(1);
+          // after delivering, go back to actividades
+          setTimeout(closeActivityDetail, 800);
+        });
+      }
+
+      const saveDraft = document.getElementById('saveDraftBtn');
+      if (saveDraft) {
+        saveDraft.addEventListener('click', function(){
+          showToast('Borrador guardado localmente.');
+        });
+      }
+
+      // Bind evaluation buttons after DOM ready
+      bindEvaluationButtons();
+
+      // Forum send handler: add message to forum feed and clear input
+      const forumInput = document.querySelector('.forum-compose input[type="text"]');
+      const forumSendBtn = document.querySelector('.forum-compose button');
+      function postForumMessage() {
+        const text = forumInput && forumInput.value.trim();
+        if (!text) return;
+        const container = document.createElement('div');
+        container.className = 'forum-message';
+        container.innerHTML = `<span class="forum-user">Tú:</span> ${text}`;
+        // insert at top of forum (below header)
+        const forumSection = document.querySelector('.forum');
+        if (forumSection) {
+          // find first message element to insert before the composer
+          forumSection.insertBefore(container, forumSection.querySelector('.forum-compose'));
+          // small visual feedback
+          container.style.opacity = '0';
+          setTimeout(()=> container.style.transition = 'opacity .28s', 10);
+          setTimeout(()=> container.style.opacity = '1', 30);
+        }
+        // increment forum responses count in the summary
+        const forumCountEl = document.getElementById('forumCount');
+        if (forumCountEl) {
+          const current = parseInt(forumCountEl.textContent || '0', 10);
+          forumCountEl.textContent = (current + 1).toString();
+        }
+        forumInput.value = '';
+      }
+
+      if (forumSendBtn && forumInput) {
+        forumSendBtn.addEventListener('click', function(){
+          postForumMessage();
+        });
+        // allow Enter to send (and Shift+Enter for newline)
+        forumInput.addEventListener('keydown', function(e){
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            postForumMessage();
+          }
+        });
+      }
+    });
+
+    // Initial icon render
+    feather.replace();
+
+    // Bind after icons render
+    bindActivityButtons();
+
+    // If mobile, adjust menu (simple responsive script)
+    function handleResize() {
+      if (window.innerWidth <= 800) {
+        document.body.classList.add('mobile');
+      } else {
+        document.body.classList.remove('mobile');
+      }
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+  </script>
+</body>
+</html>
+
